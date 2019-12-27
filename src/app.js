@@ -1,6 +1,7 @@
 import express from 'express';
 import routes from './app/routes';
 import Youch from 'youch';
+import routeNotFound from './error/routeNotFound';
 
 import './database';
 
@@ -14,12 +15,7 @@ class App {
 
   routes () {
     this.server.use(routes);
-    this.server.use(function (_, res, ___) {
-      const erro = new Error("Route not found");
-      return res.status(404).json({
-        message: erro.message
-      });
-    });
+    this.server.use(routeNotFound);
   }
 
   exceptionHandler () {
