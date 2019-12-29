@@ -9,8 +9,9 @@ class App {
   constructor () {
     this.server = express();
 
-    this.routes();
+    this.middleware();
     this.exceptionHandler()
+    this.routes();
   }
 
   routes () {
@@ -18,6 +19,11 @@ class App {
     this.server.use(routeNotFound);
   }
 
+  middleware () {
+    this.server.use(express.urlencoded({ extended: true }));
+    this.server.use(express.json());
+  }
+  
   exceptionHandler () {
     this.server.use(async (err, req, res, next) => {
       if(process.env.NODE_ENV == 'development') {
